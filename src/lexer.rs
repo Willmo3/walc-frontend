@@ -104,12 +104,8 @@ impl Lexer {
 
 // Assorted helpers
 impl Lexer {
-    fn len(&self) -> usize {
-        self.data.len()
-    }
-
     fn in_bounds(&self) -> bool {
-        self.index < self.len()
+        self.index < self.data.len()
     }
 
     // Advance to the next character.
