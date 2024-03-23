@@ -5,9 +5,9 @@ use crate::token::Token::{Add, Divide, Multiply, Subtract};
 
 /// Given an ordered collection of lexemes
 /// Build an abstract syntax tree
-pub fn parse(lexemes: Vec<Lexeme>) {
-    // Descend the grammar
-    // Find a base expression
+pub fn parse(lexemes: Vec<Lexeme>) -> Token {
+    let mut parser = Parser { index: 0, lexemes };
+    parser.parse()
 }
 
 // Contain relevant data for parsing
@@ -65,7 +65,7 @@ impl Parser {
     }
 
     fn parse_atom(&mut self) -> Token {
-        match self.next() {
+        match self.current() {
             OpenParen => {
                 self.advance();
                 let value = self.parse();
@@ -119,5 +119,28 @@ impl Parser {
     fn current(&self) -> Lexeme {
         assert!(self.in_bounds());
         self.lexemes[self.index]
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::lexer::lex;
+    use crate::parser::parse;
+    use crate::token::Token::{Add, Divide, Multiply, Number};
+
+    #[test]
+    fn test_lex() {
+        let input = "(3 + 5) * 3 / -2";
+        let lexemes = lex(input);
+
+        let three = Number { value: 3.0 };
+        let five = Number { value: 5.0 };
+        let plus = Add { left: Box::new(three), right: Box::new(five) };
+        let three = Number { value: 3.0 };
+        let times = Multiply { left: Box::new(plus), right: Box::new(three) };
+        let neg_two = Number { value: -2.0 };
+        let divide = Divide { left: Box::new(times), right: Box::new(neg_two) };
+
+        assert_eq!(divide, parse(lexemes));
     }
 }

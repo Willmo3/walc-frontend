@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub enum Token {
     Number { value: f64 },
     Add { left: Box<Token>, right: Box<Token> },
