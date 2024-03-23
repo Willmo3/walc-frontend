@@ -88,8 +88,7 @@ impl Lexer {
         }
 
         while self.in_bounds() && self.current().is_digit(10) {
-            chars.push(self.current());
-            self.index += 1;
+            chars.push(self.next());
         }
 
         Number { value: f64::from_str(&chars).unwrap() }
