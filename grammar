@@ -1,0 +1,7 @@
+start: multiply
+
+multiply: add ([*//] add)*
+
+add: number ([+/-] number)*
+
+number: NUMBER_LITERAL
