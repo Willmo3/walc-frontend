@@ -1,6 +1,5 @@
 use std::str::FromStr;
-use crate::token::Lexeme;
-use crate::token::Lexeme::{CloseParen, EOF, Minus, Number, OpenParen, Plus, Slash, Star};
+use crate::lexer::Lexeme::{CloseParen, EOF, Minus, Number, OpenParen, Plus, Slash, Star};
 
 /// Given a string "data" containing the source code.
 /// Return a list of lexemes associated with that source
@@ -9,6 +8,19 @@ pub fn lex(data: &str) -> Vec<Lexeme> {
     let mut lexer = Lexer { data: chars, index: 0, lexemes: vec![] };
     lexer.lex();
     lexer.lexemes
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Lexeme {
+    Number { value: f64 }, // Coerce all numbers to floats
+    OpenParen,
+    CloseParen,
+    Plus,
+    Minus,
+    Star,
+    Slash,
+    // Special token that all files are terminated by
+    EOF,
 }
 
 struct Lexer {
@@ -132,7 +144,7 @@ impl Lexer {
 #[cfg(test)]
 mod tests {
     use crate::lexer::lex;
-    use crate::token::Lexeme::{CloseParen, EOF, Number, OpenParen, Plus, Slash, Star};
+    use crate::lexer::Lexeme::{CloseParen, EOF, Number, OpenParen, Plus, Slash, Star};
 
     #[test]
     fn test_lex() {

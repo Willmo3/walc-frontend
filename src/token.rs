@@ -3,18 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub enum Lexeme {
-    Number { value: f64 }, // Coerce all numbers to floats
-    OpenParen,
-    CloseParen,
-    Plus,
-    Minus,
-    Star,
-    Slash,
-    // Special token that all files are terminated by
-    EOF,
-}
+
 
 #[derive(Serialize, Deserialize, Debug)]
 pub enum Token {
