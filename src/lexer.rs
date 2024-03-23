@@ -49,7 +49,14 @@ impl Lexer {
             '*' => { Star }
             '/' => { Slash }
             '+' => { Plus }
-            '-' => { Minus }
+            // trouble: minus can be the start of a negative number.
+            '-' => {
+                if self.in_bounds() && self.current().is_digit(10) {
+                    self.lex_number(start)
+                } else {
+                    Minus
+                }
+            }
             _ => {
                 if start.is_digit(10) {
                     self.lex_number(start)
@@ -66,7 +73,7 @@ impl Lexer {
     // Lex a numeric literal, starting with character char.
     // All numbers are converted to floats.
     fn lex_number(&mut self, start: char) -> Lexeme {
-        assert!(start.is_numeric());
+        assert!(start.is_numeric() || start == '-');
 
         // Collect all the characters used to build this number.
         let mut chars = start.to_string();
@@ -134,10 +141,10 @@ mod tests {
     // TODO: negative nums
     #[test]
     fn test_lex() {
-        let input = "(3 + 5) * 3 / 2";
+        let input = "(3 + 5) * 3 / -2";
         let expected = vec![OpenParen, Number { value: 3.0 },
                             Plus, Number { value: 5.0 }, CloseParen, Star, Number { value: 3.0 },
-                            Slash, Number { value: 2.0 }, EOF];
+                            Slash, Number { value: -2.0 }, EOF];
         let tokens = lex(input);
         assert_eq!(expected, tokens);
     }
