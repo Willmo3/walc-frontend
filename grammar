@@ -1,7 +1,10 @@
 start: multiply
 
-multiply: add ([*//] add)*
+multiply: add ([TIMES_LITERAL / DIVIDE_LITERAL] add)*
 
-add: number ([+/-] number)*
+add: atom ([PLUS_LITERAL / MINUS_LITERAL] atom)*
+
+atom: (multiply)
+    | number
 
 number: NUMBER_LITERAL
