@@ -138,7 +138,6 @@ mod tests {
     use crate::lexer::lex;
     use crate::token::Lexeme::{CloseParen, EOF, Number, OpenParen, Plus, Slash, Star};
 
-    // TODO: negative nums
     #[test]
     fn test_lex() {
         let input = "(3 + 5) * 3 / -2";
