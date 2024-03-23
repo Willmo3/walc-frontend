@@ -140,6 +140,12 @@ mod tests {
                             Plus, Number { value: 5.0 }, CloseParen, Star, Number { value: 3.0 },
                             Slash, Number { value: 2.0 }, EOF];
         let tokens = lex(input);
-        assert_eq!(expected, tokens)
+        assert_eq!(expected, tokens);
+    }
+
+    #[test]
+    fn test_empty() {
+        let input = "";
+        assert_eq!(vec![EOF], lex(input));
     }
 }
