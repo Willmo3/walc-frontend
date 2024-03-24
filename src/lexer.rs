@@ -63,14 +63,14 @@ impl Lexer {
             '+' => { Plus }
             // trouble: minus can be the start of a negative number.
             '-' => {
-                if self.in_bounds() && self.current().is_digit(10) {
+                if self.in_bounds() && self.current().is_ascii_digit() {
                     self.lex_number(start)
                 } else {
                     Minus
                 }
             }
             _ => {
-                if start.is_digit(10) {
+                if start.is_ascii_digit() {
                     self.lex_number(start)
                 } else {
                     panic!("{}", format!("Unexpected character {}", self.current()));
@@ -90,7 +90,7 @@ impl Lexer {
         // Collect all the characters used to build this number.
         let mut chars = start.to_string();
         // Push all the numbers until we encounter a non-numeric character.
-        while self.in_bounds() && self.current().is_digit(10) {
+        while self.in_bounds() && self.current().is_ascii_digit() {
             chars.push(self.next());
         }
 
@@ -102,11 +102,11 @@ impl Lexer {
         // Otherwise, treat it as a decimal number.
         chars.push(self.next());
         // Floats must have a value after the decimal point!
-        if !self.in_bounds() || !self.current().is_digit(10) {
+        if !self.in_bounds() || !self.current().is_ascii_digit() {
             panic!("Unterminated float!");
         }
 
-        while self.in_bounds() && self.current().is_digit(10) {
+        while self.in_bounds() && self.current().is_ascii_digit() {
             chars.push(self.next());
         }
 

@@ -3,8 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
-
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub enum Token {
     Number { value: f64 },
