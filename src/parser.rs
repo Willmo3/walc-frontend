@@ -1,7 +1,7 @@
 use crate::lexer::Lexeme;
 use crate::lexer::Lexeme::{CloseParen, EOF, Minus, OpenParen, Plus, Slash, Star};
-use crate::token::Token;
-use crate::token::Token::{Add, Divide, Multiply, Subtract};
+use walc_model::Token;
+use walc_model::Token::{Add, Divide, Multiply, Subtract};
 
 /// Given an ordered collection of lexemes
 /// Build an abstract syntax tree
@@ -130,9 +130,9 @@ impl Parser {
 
 #[cfg(test)]
 mod tests {
+    use walc_model::Token::{Add, Divide, Multiply, Number};
     use crate::lexer::lex;
     use crate::parser::parse;
-    use crate::token::Token::{Add, Divide, Multiply, Number};
 
     #[test]
     fn test_lex() {

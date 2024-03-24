@@ -2,7 +2,6 @@ use std::io::stdin;
 use crate::lexer::lex;
 use crate::parser::parse;
 
-mod token;
 mod lexer;
 mod parser;
 
