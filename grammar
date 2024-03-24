@@ -1,8 +1,8 @@
 start: multiply
 
-multiply: add ([TIMES_LITERAL / DIVIDE_LITERAL] add)*
+add: multiply ([PLUS_LITERAL / MINUS_LITERAL] multiply)*
 
-add: atom ([PLUS_LITERAL / MINUS_LITERAL] atom)*
+multiply: atom ([TIMES_LITERAL / DIVIDE_LITERAL] atom)*
 
 atom: (multiply)
     | number

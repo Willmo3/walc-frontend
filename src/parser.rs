@@ -24,44 +24,44 @@ struct Parser {
 // Parse methods
 impl Parser {
     fn parse(&mut self) -> Token {
-        self.parse_multiply()
-    }
-
-    fn parse_multiply(&mut self) -> Token {
-        let mut left = self.parse_add();
-
-        while self.in_bounds() {
-            left = match self.current() {
-                Star => {
-                    self.advance();
-                    Multiply { left: Box::new(left), right: Box::new(self.parse_add()) }
-                }
-                Slash => {
-                    self.advance();
-                    Divide { left: Box::new(left), right: Box::new(self.parse_add()) }
-                }
-                _ => { return left }
-            }
-        }
-
-        left
+        self.parse_add()
     }
 
     fn parse_add(&mut self) -> Token {
-        let mut left = self.parse_atom();
+        let mut left = self.parse_multiply();
 
         while self.in_bounds() {
             left = match self.current() {
                 Plus => {
                     self.advance();
-                    Add { left: Box::new(left), right: Box::new(self.parse_atom()) }
+                    Add { left: Box::new(left), right: Box::new(self.parse_multiply()) }
                 }
                 Minus => {
                     self.advance();
-                    Subtract { left: Box::new(left), right: Box::new(self.parse_atom()) }
+                    Subtract { left: Box::new(left), right: Box::new(self.parse_multiply()) }
                 }
                 _ => { return left }
             };
+        }
+
+        left
+    }
+
+    fn parse_multiply(&mut self) -> Token {
+        let mut left = self.parse_atom();
+
+        while self.in_bounds() {
+            left = match self.current() {
+                Star => {
+                    self.advance();
+                    Multiply { left: Box::new(left), right: Box::new(self.parse_atom()) }
+                }
+                Slash => {
+                    self.advance();
+                    Divide { left: Box::new(left), right: Box::new(self.parse_atom()) }
+                }
+                _ => { return left }
+            }
         }
 
         left
