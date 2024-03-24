@@ -92,7 +92,7 @@ impl Parser {
             Lexeme::Number { value } => {
                 Token::Number { value }
             }
-            _ => { panic!("Invalid lexeme!"); }
+            _ => { panic!("Expected a number, but none was found!"); }
         }
     }
 }
@@ -154,5 +154,12 @@ mod tests {
     fn test_empty() {
         let input = "";
         assert_eq!(None, parse(lex(input)))
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_invalid_lexeme() {
+        let input = "3+";
+        parse(lex(input));
     }
 }
