@@ -11,8 +11,7 @@ pub fn parse(lexemes: Vec<Lexeme>) -> Option<Token> {
     if lexemes[0] == EOF {
         None
     } else {
-        let mut parser = Parser { index: 0, lexemes };
-        Some(parser.parse())
+        Some(Parser { index: 0, lexemes }.parse())
     }
 }
 
@@ -32,8 +31,7 @@ impl Parser {
         let mut left = self.parse_add();
 
         while self.in_bounds() {
-            let operator = self.current();
-            left = match operator {
+            left = match self.current() {
                 Star => {
                     self.advance();
                     Multiply { left: Box::new(left), right: Box::new(self.parse_add()) }
@@ -53,8 +51,7 @@ impl Parser {
         let mut left = self.parse_atom();
 
         while self.in_bounds() {
-            let operator = self.current();
-            left = match operator {
+            left = match self.current() {
                 Plus => {
                     self.advance();
                     Add { left: Box::new(left), right: Box::new(self.parse_atom()) }
@@ -70,6 +67,9 @@ impl Parser {
         left
     }
 
+    // parse atom:
+    // either a parenthesized expression (EXPR)
+    // Or a simple number
     fn parse_atom(&mut self) -> Token {
         match self.current() {
             OpenParen => {
