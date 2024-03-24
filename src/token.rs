@@ -64,4 +64,11 @@ mod tests {
         let ast = parse(lex(input)).unwrap();
         assert_eq!(expected, ast.evaluate());
     }
+
+    // one of the few special cases in my limited language
+    #[test]
+    #[should_panic]
+    fn test_div_zero() {
+        parse(lex("3/0")).unwrap().evaluate();
+    }
 }
