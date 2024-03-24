@@ -1,13 +1,19 @@
 use crate::lexer::Lexeme;
-use crate::lexer::Lexeme::{CloseParen, Minus, OpenParen, Plus, Slash, Star};
+use crate::lexer::Lexeme::{CloseParen, EOF, Minus, OpenParen, Plus, Slash, Star};
 use crate::token::Token;
 use crate::token::Token::{Add, Divide, Multiply, Subtract};
 
 /// Given an ordered collection of lexemes
 /// Build an abstract syntax tree
-pub fn parse(lexemes: Vec<Lexeme>) -> Token {
-    let mut parser = Parser { index: 0, lexemes };
-    parser.parse()
+pub fn parse(lexemes: Vec<Lexeme>) -> Option<Token> {
+    // There should be at least an EOF lexeme
+    assert!(lexemes.len() > 0);
+    if lexemes[0] == EOF {
+        None
+    } else {
+        let mut parser = Parser { index: 0, lexemes };
+        Some(parser.parse())
+    }
 }
 
 // Contain relevant data for parsing
@@ -141,6 +147,12 @@ mod tests {
         let neg_two = Number { value: -2.0 };
         let divide = Divide { left: Box::new(times), right: Box::new(neg_two) };
 
-        assert_eq!(divide, parse(lexemes));
+        assert_eq!(divide, parse(lexemes).unwrap());
+    }
+
+    #[test]
+    fn test_empty() {
+        let input = "";
+        assert_eq!(None, parse(lex(input)))
     }
 }
