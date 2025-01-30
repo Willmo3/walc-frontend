@@ -1,4 +1,5 @@
 use std::io::stdin;
+use walc_model::ast::treewalk_interpreter::interpret;
 use crate::lexer::lex;
 use crate::parser::parse;
 
@@ -12,7 +13,7 @@ fn main() {
     // Repeatedly write answers to stdout
     let mut buffer = String::new();
     while stdin().read_line(&mut buffer).unwrap() > 0 {
-        println!("{}", parse(lex(&buffer)).unwrap().evaluate());
+        println!("{}", interpret(&parse(lex(&buffer)).unwrap()).unwrap());
         buffer = String::new();
     }
 }
