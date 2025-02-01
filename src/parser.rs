@@ -24,7 +24,12 @@ struct Parser {
 // Parse methods
 impl Parser {
     fn parse(&mut self) -> Token {
-        self.parse_add()
+        let ast = self.parse_add();
+        // Complain if error.
+        if self.index != self.lexemes.len() - 1 {
+            panic!("Expected EOF, got {:?}.\n ", self.lexemes[self.index]);
+        }
+        ast
     }
 
     fn parse_add(&mut self) -> Token {
