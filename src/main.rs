@@ -1,10 +1,5 @@
 use std::io::stdin;
-use walc_model::ast::treewalk_interpreter::interpret;
-use crate::lexer::lex;
-use crate::parser::parse;
-
-mod lexer;
-mod parser;
+use walc_model::interpret;
 
 // Very simple calculator driver.
 // Basically no error checking
@@ -13,7 +8,10 @@ fn main() {
     // Repeatedly write answers to stdout
     let mut buffer = String::new();
     while stdin().read_line(&mut buffer).unwrap() > 0 {
-        println!("{}", interpret(&parse(lex(&buffer)).unwrap()).unwrap());
+        match interpret(&buffer) {
+            Ok(result) => { println!("{}", result) }
+            Err(error) => { println!("Error: {}", error) }
+        }
         buffer = String::new();
     }
 }

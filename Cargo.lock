@@ -67,9 +67,9 @@ dependencies = [
 
 [[package]]
 name = "walc_model"
-version = "0.2.1"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "635513512b9e7b94466afcbe9eac0e22e0805dbc9652d1e565c0d43a8a73d4a5"
+checksum = "89e28a0325813d103c93d7cc71ebd1daa6273e3f2ce364b9dc88bba6e73e57a1"
 dependencies = [
  "serde",
 ]
